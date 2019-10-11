@@ -6,7 +6,10 @@ dirData = JSON.parse(fs.readFileSync('diretorias.json', 'utf8')),
 filesPath = './contas/anexos/',
 filesArray = fs.readdirSync(filesPath);
 
-
+//RENAME ALL ATTACHMENTS
+filesArray.map(f => {
+  fs.renameSync(filesPath + f, filesPath + f.replace(/ /g, '-'));
+})
 
 app.listen(port);
 
@@ -21,8 +24,3 @@ app.get('/get-file-list', (req,res) => {
 app.use('/serve-pdf', express.static(filesPath));
 
 console.log('Message RESTful API server started on: ' + port);
-
-//RENAME ALL ATTACHMENTS
-filesArray.map(f => {
-  fs.renameSync(filesPath + f, filesPath + f.replace(/ /g, '-'));
-})
